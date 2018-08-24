@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="">
-    <h2>{{ MainTitle }}</h2>
+    <h2>{{ titulo_principal }}</h2>
     <h4>Tareas actuales: {{ tareasActuales }}</h4>
   </div>
 
@@ -10,7 +10,7 @@
 import { bus } from './main.js'
 
 export default {
-  props: ['MainTitle'],
+  props: ['titulo_principal'],
   data(){
     return {
       tareasActuales : 3

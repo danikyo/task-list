@@ -1,49 +1,54 @@
 <template>
   <div id="app" class="container">
     <div class="jumbotron">
-      <!-- Export titulo from main data to TitleComponent.vue -->
-      <titulo :MainTitle="titulo"></titulo>
-      <!-- Export tareas from main data to TaskComponent.vue (other way)-->
-      <new-task v-bind:taskList="tareas"></new-task>
+      <!-- Exportar título de "data()" a "TitleComponent.vue" -->
+      <titulo :titulo_principal="titulo"></titulo>
 
-      <list :taskList="tareas"></list>
+      <nueva-tarea v-bind:lista_tareas="tareas"></nueva-tarea>
+
+      <lista :lista_tareas="tareas"></lista>
     </div>
   </div>
 </template>
 
 <script>
-  //import components
-  import Titulo from './TitleComponent.vue'
-  import NewTask from './TaskComponent.vue'
-  import List from './ListComponent.vue'
+  // Importar componentes que se usan en la aplicación
+  import Titulo from './TituloComponent.vue'
+  import NuevaTarea from './NuevaTareaComponent.vue'
+  import Lista from './ListaTareaComponent.vue'
 
-  //export to view
+  // exportar a vistas
   export default {
-    //components imported
+    // Componentes importados
     components: {
       Titulo,
-      NewTask,
-      List
+      NuevaTarea,
+      Lista
     },
-    //main data
+    // Data de la aplicación
     data(){
       return{
         titulo: 'Lista de tareas',
         tareas: []
       }
     },
+    // Cuando se crea el componente llena la lista con los elementos de la base de datos
     created(){
-      this.$http.get('https://tareas-60afe.firebaseio.com/tareas.json')
+      this.$http.get('tareas.json')
                 .then(respuesta => {
                   return respuesta.json();
                 })
-                .then(respuestaJson => {
-                  for(let id in respuestaJson){
-                    this.tareas.push(respuestaJson[id]);
+                .then(respuesta_json => {
+                  for(let id in respuesta_json){
+                    let tarea = {
+                      id: id,
+                      texto: respuesta_json[id].texto,
+                      terminada: respuesta_json[id].terminada
+                    }
+                    this.tareas.push(tarea);
                   }
                 })
     }
-
   }
 </script>
 
